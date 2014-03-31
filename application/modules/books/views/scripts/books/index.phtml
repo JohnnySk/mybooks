@@ -1,0 +1,36 @@
+<div class="col-md-3 filters">
+    <div class="btn-group genre-filter">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Жанр <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="<?php echo BASE_URL.'books/books/genre' ?>" data="novel">Роман</a></li>
+            <li><a href="<?php echo BASE_URL.'books/books/genre' ?>" data="adventures">Приключения</a></li>
+            <li><a href="<?php echo BASE_URL.'books/books/genre' ?>" data="history">Исторический</a></li>
+            <li><a href="<?php echo BASE_URL.'books/books/genre' ?>" data="history">Учебная</a></li>
+        </ul>
+    </div></br>
+
+    <div class="btn-group author-filter">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Автор <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <?php
+                $author = null;
+                foreach($this->books as $key => $value) {
+                    if($author != $value->getAuthor()) {
+                        $author = $value->getAuthor();
+                        echo '<li><a href="books/viewByAuthor/author/'.$author.'">'.$author.'</a></li>';
+                    }
+                }
+            ?>
+        </ul>
+    </div>
+</div>
+
+<div class="col-md-9 books-images"><?php foreach($this->books as $key => $value) {
+    echo '<span class="title">'.$value->getTitle().'</span></br>';
+    echo '<img src="'.BASE_URL.$value->getImage().'" class="book-image" alt="'.$value->getId().'" /></br>';
+} ?>
+</div>

@@ -1,0 +1,10 @@
+<div class="avatar_section col-md-3">
+    <img src="<?php echo BASE_URL.$this->user->avatar; ?>"> </br></br>
+    <a href="<?php echo $this->url(array('module' => 'Users', 'controller' => 'users', 'action' => 'change')); ?>"><button type="button"class="btn btn-default">Редактировать Профиль</button></a>
+</div>
+
+<div class="col-md-9">
+    <h1>Здравствуй, <?php echo $this->user->name; ?>!</h1>
+    <a href="<?php echo $this->url(array('module' => 'books', 'controller' => 'books', 'action' => 'show')); ?>"><button type="button" class="btn btn-default">Мои Книги</button></a>
+    <a href="<?php echo $this->url(array('module' => 'review', 'controller' => 'review', 'action' => 'show')); ?>"><button type="button" class="btn btn-default">Мои Рецензии</button></a>
+</div>

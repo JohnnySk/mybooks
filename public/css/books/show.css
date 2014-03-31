@@ -1,0 +1,11 @@
+div.books-images {
+    text-align: center;
+}
+
+img.book-image {
+    padding: 15px;
+    margin: 15px;
+    border: 1px solid #c0c0c0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 1px;
+}

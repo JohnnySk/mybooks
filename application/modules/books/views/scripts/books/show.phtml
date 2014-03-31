@@ -1,0 +1,12 @@
+<div class="avatar_section col-md-3">
+    <img src="<?php echo BASE_URL.$this->user->avatar; ?>"> </br></br>
+    <a href="<?php echo $this->url(array('module' => 'Users', 'controller' => 'users', 'action' => 'change')); ?>"><button type="button"class="btn btn-default">Редактировать Профиль</button></a>
+</div>
+
+<div class="col-md-9 books-images">
+    <h1><?php echo $this->user->name; ?>, список книг, добавленных вами:</h1>
+    <?php foreach($this->books as $key => $value) {
+            echo '<span class="title">'.$value->getTitle().'</span></br>';
+            echo '<img src="'.BASE_URL.$value->getImage().'" class="book-image" alt="'.$value->getId().'" /></br>';
+        } ?>
+</div>

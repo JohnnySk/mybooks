@@ -1,0 +1,52 @@
+<?php echo $this->doctype() ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Сквозь Страницы</title>
+        <?php echo $this->headLink()->appendStylesheet('/css/bootstrap.css') ?>
+        <?php echo $this->headLink()->appendStylesheet('/css/main.css') ?>
+        <?php echo $this->headScript()->appendFile('/js/jquery-1.11.0.min.js') ?>
+        <?php echo $this->headScript()->appendFile('/js/bootstrap.js') ?>
+        <?php if($this->cssControllerAction) echo $this->headLink()->appendStylesheet('/css/'.$this->cssControllerAction) ?>
+        <?php if($this->jsControllerAction) echo $this->headScript()->appendFile('/js/'.$this->jsControllerAction) ?>
+        <script type="text/javascript">
+            var booksUrl = '<?=BASE_URL."books/books/index"?>'
+        </script>
+    </head>
+    <body>
+        <header>
+            <nav class="row col-md-8 col-md-offset-2 navbar navbar-default" role="navigation">
+                <a class="navbar-brand" href="/home">Сквозь Страницы</a>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="<?php echo $this->url(
+                                array('module' => 'default',
+                                    'controller' => 'index',
+                                    'action' => 'index')); ?>">Главная</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $this->url(
+                                array('module' => 'books',
+                                    'controller' => 'books',
+                                    'action' => 'index')); ?>">Книги</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $this->url(
+                                array('module' => 'review',
+                                    'controller' => 'review',
+                                    'action' => 'show')); ?>">Рецензии</a>
+                        </li>
+                        <?php if(Zend_Session::sessionExists() && Zend_Session::namespaceIsset('User')) {
+                            echo '<li><a href="'.$this->url(array('module' => 'Users', 'controller' => 'users', 'action' => 'logout')).'">Выход</a></li>';
+                        } else {
+                            echo '<li><a href="'.$this->url(array('module' => 'Users', 'controller' => 'users', 'action' => 'login')).'">Вход</a></li>';
+                        } ?>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <section class="row col-md-8 col-md-offset-2 content">
+            <?php echo $this->layout()->content ?>
+        </section>
+    </body>
+</html>

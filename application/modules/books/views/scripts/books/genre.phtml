@@ -1,0 +1,4 @@
+<div class="ajax"><?php foreach($this->books as $key => $value) {
+echo '<span class="title">'.$value->getTitle().'</span></br>';
+echo '<img src="'.BASE_URL.$value->getImage().'" class="book-image" alt="'.$value->getId().'" /></br>';
+}?></div>

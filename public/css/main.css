@@ -1,0 +1,7 @@
+nav.navbar-default {
+    border-radius: 0;
+}
+
+div.navbar-collapse ul.navbar-nav > li:hover {
+    background: #cccccc;
+}

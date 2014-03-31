@@ -1,0 +1,9 @@
+<?php
+if (isset($this->errorMessage)) {
+    echo $this->errorMessage;
+}
+if (isset($this->ValidateError)) {
+    echo 'Поле "'.$this->ValidateError.'" Не валидно, внесите данные снова.';
+}
+?>
+<?php echo $this->form; ?>

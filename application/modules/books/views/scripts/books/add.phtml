@@ -1,0 +1,12 @@
+<div><?php
+if(isset($this->form))
+    echo $this->form;
+?>
+</div>
+<div class="validate_errors">
+    <?php
+        if(isset($this->ValidateError)) {
+            echo 'Поле '.$this->ValidateError.' не валидно, внесите данные снова.';
+        }
+    ?>
+</div>

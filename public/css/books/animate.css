@@ -1,0 +1,44 @@
+.element {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    background: #0398CA;
+    height: 150px;
+    width: 150px;
+}
+
+.up {
+    position: absolute;
+    top: 0;
+    left: 125px;
+    width: 10px;
+    height: 20px;
+    background: #000000;
+}
+
+.left {
+    position: absolute;
+    top: 125px;
+    left: 0;
+    width: 20px;
+    height: 10px;
+    background: #000000;
+}
+
+.right {
+    position: absolute;
+    top: 125px;
+    left: 250px;
+    width: 20px;
+    height: 10px;
+    background: #000000;
+}
+
+.down {
+    position: absolute;
+    top: 250px;
+    left: 125px;
+    width: 10px;
+    height: 20px;
+    background: #000000;
+}

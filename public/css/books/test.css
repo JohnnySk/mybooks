@@ -1,0 +1,15 @@
+div.menu {
+    float: left;
+}
+
+div.menu > ul li {
+    background: #0398CA;
+    list-style: none;
+    height: 30px;
+    width: 150px;
+    margin: 10px;
+}
+
+div.add button {
+    margin-left: 30%;
+}
