@@ -116,6 +116,26 @@ class Users_UsersController extends Zend_Controller_Action
 
     public function changeAction()
     {
+        $form = new Users_Form_Change();
+        $userData = Zend_Session::namespaceGet('User');
+        if($this->getRequest()->isPost())
+        {
+            if($form->isValid($_POST))
+            {
+                $mapper = new Users_Model_UsersMapper();
+                $data_to_change = $form->getValues();
+                $data_to_change['id'] = $userData['storage']->id;
+                $user = new Users_Model_Users($data_to_change);
+                $user->uploadAvatar();
+                $mapper->save($user);
+                $this->redirect('Users/users/profile');
+            }
+
+        } else {
+            if(!$userData) $this->redirect('Users/users/login');
+            $this->view->user = $userData['storage'];
+            $this->view->form = $form;
+        }
 
     }
 }

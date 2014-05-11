@@ -10,7 +10,7 @@ class Books_Form_Add extends Zend_Form
            'label' => 'Название Книги:',
             'required' => true,
         ));
-        $StringLength = new Zend_Validate_StringLength(1, 5);
+        $StringLength = new Zend_Validate_StringLength(1, 50);
         $StringLength->setMessages(array(
             Zend_Validate_StringLength::TOO_SHORT => 'Строка слишком короткая',
             Zend_Validate_StringLength::TOO_LONG => 'Строка слишком длинная'

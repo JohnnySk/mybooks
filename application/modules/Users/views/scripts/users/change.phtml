@@ -1,0 +1,23 @@
+<div class="user-data">
+    <div class="user-avatar">
+        <span>Ваш текущий аватар:</span></br>
+        <img src="<?php echo BASE_URL.$this->user->avatar; ?>">
+    </div>
+
+    <div class="user-name">
+        <span>Ваше текущее имя:<span class="username"><?php echo $this->user->name; ?></span></span></br>
+    </div>
+
+    <div class="user-email">
+        <span>Ваш логин(E-mail):<span class="email"><?php echo $this->user->email; ?></span></span></br>
+    </div>
+
+    <div class="user-date_of_birth">
+        <span>Дата рождения:<span class="date_of_birth"><?php if(!empty($this->user->date_of_birth))echo $this->user->date_of_birth; ?></span></span>
+    </div>
+</div>
+<div class="change-form">
+    <?php
+        echo $this->form;
+    ?>
+</div>

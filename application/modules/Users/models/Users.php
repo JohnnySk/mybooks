@@ -149,5 +149,31 @@ class Users_Model_Users
         return $this->_role;
     }
 
+    public function uploadAvatar()
+    {
+        if(!empty($_FILES['avatar']['size']))
+        {
+            $tmpPath = $_FILES['avatar']['tmp_name'];
+            $partOfPath = preg_split('/\/[a-zA-Z0-9]+$/', $tmpPath);
+            $correctPath = $partOfPath[0].'/'.$_FILES['userFile']['name'];
+            $userAvatar = new Imagick($correctPath);
+            $userAvatar->thumbnailimage(225, 0, false);
+            $uploadDir = DIR_PUBLIC.'images/avatars/';
+            $uploadFile = $uploadDir.'avatar_'.$this->getId();
+            if($_FILES['avatar']['type'] == 'image/jpeg') $type = '.jpg';
+            if($_FILES['avatar']['type'] == 'image/png') $type = '.png';
+            $uploadFile .= $type;
+            if($userAvatar->writeimage($uploadFile))
+            {
+                $newPath = 'images/avatars/avatar_'.$this->getId().$type;
+                $this->setAvatar($newPath);
+                return true;
+            }
+
+        } else {
+            return false;
+        }
+    }
+
 }
 
