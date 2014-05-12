@@ -118,23 +118,37 @@ class Users_UsersController extends Zend_Controller_Action
     {
         $form = new Users_Form_Change();
         $userData = Zend_Session::namespaceGet('User');
-        if($this->getRequest()->isPost())
+        if($userData['storage']->id)
         {
-            if($form->isValid($_POST))
+            if($this->getRequest()->isPost())
             {
-                $mapper = new Users_Model_UsersMapper();
-                $data_to_change = $form->getValues();
-                $data_to_change['id'] = $userData['storage']->id;
-                $user = new Users_Model_Users($data_to_change);
-                $user->uploadAvatar();
-                $mapper->save($user);
-                $this->redirect('Users/users/profile');
-            }
+                if($form->isValid($_POST))
+                {
+                    $userMapper = new Users_Model_UsersMapper();
+                    $data_to_change = $form->getValues();
+                    $data_to_change['id'] = $userData['storage']->id;
+                    $user = new Users_Model_Users($data_to_change);
+                    if(!empty($_FILES['avatar_image']['size']))
+                    {
+                        $user->uploadAvatar();
+                    }
 
+                    $userMapper->save($user);
+                    $userMapper->find($userData['storage']->id, $user);
+                    $storage = new Zend_Auth_Storage_Session('User');
+                    $storage->write($user);
+                    $this->redirect('Users/users/profile');
+                } else {
+                    $this->view->user = $userData['storage'];
+                    $this->view->form = $form;
+                }
+
+            } else {
+                $this->view->user = $userData['storage'];
+                $this->view->form = $form;
+            }
         } else {
-            if(!$userData) $this->redirect('Users/users/login');
-            $this->view->user = $userData['storage'];
-            $this->view->form = $form;
+            $this->redirect('Users/users/login');
         }
 
     }

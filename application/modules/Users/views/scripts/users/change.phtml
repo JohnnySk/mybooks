@@ -13,9 +13,10 @@
     </div>
 
     <div class="user-date_of_birth">
-        <span>Дата рождения:<span class="date_of_birth"><?php if(!empty($this->user->date_of_birth))echo $this->user->date_of_birth; ?></span></span>
+        <span>Дата рождения:<span class="date_of_birth"><?php echo $this->user->dateOfBirth; ?></span></span>
     </div>
 </div>
+
 <div class="change-form">
     <?php
         echo $this->form;
