@@ -64,15 +64,29 @@ class Books_Form_Add extends Zend_Form
         ));
 
         $hidden = $this->createElement('hidden', 'MAX_FILE_SIZE', array(
-           'value' => '500000'
+           'value' => '10000000' //100 mb
         ));
 
-        $file = $this->createElement('file', 'userFile', array(
-           'required' => true
+        $fileAvatar = $this->createElement('file', 'userFile', array(
+           'required' => true,
+           'label'    => 'Изображение:'
         ));
+
+        $fileBook = $this->createElement('file', 'userBook', array(
+            'required' => true,
+            'label'    => 'Книга:'
+        ));
+
+        $fileExtension = new Zend_Validate_File_Extension('epub, pdf, txt, doc, djvu, fb2');
+        $fileExtension->setMessages(array(
+            Zend_Validate_File_Extension::FALSE_EXTENSION => 'Такой формат не поддерживается нашим порталом.',
+            Zend_Validate_File_Extension::NOT_FOUND       => 'Файл не найден.'
+        ));
+
+        $fileBook->addValidator($fileExtension);
 
         $submit = $this->createElement('submit', 'add', array(
-           'label' => 'Добавить Книгу',
+           'label'  => 'Добавить Книгу',
             'class' => 'btn btn-default'
         ));
 
@@ -83,7 +97,8 @@ class Books_Form_Add extends Zend_Form
             $publication,
             $publication_date,
             $hidden,
-            $file,
+            $fileAvatar,
+            $fileBook,
             $submit
         ));
     }
