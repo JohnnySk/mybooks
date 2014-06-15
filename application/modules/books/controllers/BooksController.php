@@ -30,17 +30,39 @@ class Books_BooksController extends Zend_Controller_Action
             if ($form->isValid($_POST))
             {
                 $data = $form->getValues();
+                //get owner's id
+                if(Zend_Session::sessionExists() && Zend_Session::namespaceIsset('User'))
+                {
+                    $storage = Zend_Session::namespaceGet('User');
+                    $ownerData = $storage['storage'];
+                    $ownerId = $ownerData->id;
+                    $data['owner_id'] = $ownerId;
+                } else {
+                    $this->redirect('Users/users/login');
+                }
                 $bookMapper = new Books_Model_BooksMapper();
                 $newBook = new Books_Model_Books($data);
-                $LastBookId = $bookMapper->getLastId();
-                $newBook->setBookImage($LastBookId);
-                $bookMapper->save($newBook);
-                $this->redirect('books/books/index');
+                $lastBookId = $bookMapper->getLastId();
+                $newBook->setBookImage($lastBookId);
+                if($newBook->getErrors())
+                {
+                    $this->view->objectError = $newBook->getErrors();
+                } else {
+                    $newBook->setBookFile($lastBookId);
+                    if($newBook->getErrors())
+                    {
+                        $this->view->objectError = $newBook->getErrors();
+                    } else {
+                        $bookMapper->save($newBook);
+                        $this->redirect('books/books/index');
+                    }
+                }
+
             } else {
-                $FormErrors = $form->getErrors();
-                foreach($FormErrors as $FormElement => $error) {
+                $formErrors = $form->getErrors();
+                foreach($formErrors as $formElement => $error) {
                     if(!empty($error)) {
-                        $this->view->ValidateError = $FormElement;
+                        $this->view->ValidateError = $formElement;
                         break;
                     }
                 }

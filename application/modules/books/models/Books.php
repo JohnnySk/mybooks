@@ -11,6 +11,7 @@ class Books_Model_Books
     protected $_owner_id;
     protected $_path;
     protected $_image;
+    protected $_errors = array();
 
     public function __construct(array $options = null)
     {
@@ -53,7 +54,7 @@ class Books_Model_Books
         return $this;
     }
 
-    public function setBookImage($LastBookId)
+    public function setBookImage($lastBookId)
     {
         if(!empty($_FILES['userFile']['size']))
         {
@@ -64,13 +65,62 @@ class Books_Model_Books
             $BookImage->thumbnailimage(200, 0, false);
             $uploadDir = DIR_PUBLIC.'images/books/';
             $uploadFile = $uploadDir.basename($_FILES['userFile']['name']);
-            $BookImage->writeimage($uploadFile);
-            $LastBookId['id']+= 1;
-            rename($uploadFile, $uploadDir.$LastBookId['id'].'.jpg');
-            $newPath = 'images/books/'.$LastBookId['id'].'.jpg';
-            $this->setImage($newPath);
+            if($BookImage->writeimage($uploadFile))
+            {
+                $lastBookId['id']+= 1;
+                rename($uploadFile, $uploadDir.$lastBookId['id'].'.jpg');
+                $newPath = 'images/books/'.$lastBookId['id'].'.jpg';
+                $this->setImage($newPath);
+            } else {
+                $error = 'Не удалось записать изображение!!!';
+                $this->setErrors('image', $error);
+            }
+
         } else return null;
 
+    }
+
+    public function setBookFile($lastBookId)
+    {
+        if(!empty($_FILES['userBook']['size']))
+        {
+            $uploadDir = DIR_PUBLIC.'books/';
+            //variant with MIME-type
+            /*switch($_FILES['userBook']['type']) {
+                case 'application/pdf':
+                    $uploadFile = $uploadDir.$lastBookId.'.pdf';
+                    break;
+                case 'text/plain':
+                    $uploadFile = $uploadDir.$lastBookId.'.txt';
+                    break;
+                case 'application/epub+zip':
+                    $uploadFile = $uploadDir.$lastBookId.'.epub';
+                    break;
+                case 'application/msword':
+                    $uploadFile = $uploadDir.$lastBookId.'.doc';
+                    break;
+                case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+                    $uploadFile = $uploadDir.$lastBookId.'docx';
+                    break;
+                case 'image/vnd.djvu ':
+                    $uploadFile = $uploadDir.$lastBookId.'.djvu';
+                    break;
+                case 'application/x-fb2':
+                    $uploadFile = $uploadDir.$lastBookId.'.fb2';
+                    break;
+            }*/
+            //variant with cutting extension from original filename
+            preg_match('/\.[a-z]+$/', $_FILES['userBook']['name'], $matches);
+            $currentExtension = $matches[0];
+            $uploadFile = $uploadDir.$lastBookId.$currentExtension;
+            if(move_uploaded_file($_FILES['userBook']['tmp_name'], $uploadFile))
+            {
+                $this->setPath($uploadFile);
+            } else {
+                $error = 'Ошибка при записи файла книги!!!';
+                $this->setErrors('file', $error);
+            }
+        }
     }
 
     public function setId($id)
@@ -170,5 +220,16 @@ class Books_Model_Books
     public function getImage()
     {
         return $this->_image;
+    }
+
+    public function setErrors($key, $error)
+    {
+        $this->_errors[$key] = $error;
+        return $this;
+    }
+
+    public function getErrors()
+    {
+        return $this->_errors;
     }
 }

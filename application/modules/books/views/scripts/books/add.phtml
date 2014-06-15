@@ -1,12 +1,17 @@
-<div><?php
-if(isset($this->form))
-    echo $this->form;
-?>
-</div>
-<div class="validate_errors">
-    <?php
-        if(isset($this->ValidateError)) {
-            echo 'Поле '.$this->ValidateError.' не валидно, внесите данные снова.';
-        }
-    ?>
-</div>
+<?php if(isset($this->form)) : ?>
+    <div class="add_book_form">
+        <?php echo $this->form; ?>
+    </div>
+<?php endif; ?>
+<?php if(isset($this->ValidateError)) : ?>
+    <div class="validate_errors">
+        <?php echo 'Поле '.$this->ValidateError.' не валидно, внесите данные снова.'; ?>
+    </div>
+<?php endif; ?>
+<?php if(isset($this->objectError)) : ?>
+    <div class="object_error">
+        <?php foreach($this->objectError as $type => $message) : ?>
+            <?php echo $message; ?>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
